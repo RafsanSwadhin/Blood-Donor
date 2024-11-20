@@ -25,7 +25,7 @@ class Post(models.Model):
     slug = models.CharField(max_length=100, blank=True)
     # salary = models.FloatField()
     details = models.TextField()
-    available = models.BooleanField()
+    # available = models.BooleanField()
     category = models.CharField(max_length=100, choices=CATEGORY)
     created_at = models.DateTimeField(default=now)
     # image = models.ImageField(default='default.jpg', upload_to='tuition/images')
