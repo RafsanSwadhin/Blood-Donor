@@ -17,7 +17,13 @@ def post(request):
             post.user = request.user  # Associate the post with the current user
             post.slug = slugify(post.title)  # Generate the slug
             post.save()
-            return redirect('/')  # Update to your URL name
+            return redirect('postview')  # Update to your URL name
     else:
         form = PostForm()
     return render(request, 'createpost.html', {'form': form})
+
+
+
+def postview(request):
+    post = Post.objects.all().order_by('-created_at')  # Order by latest posts
+    return render(request, 'postview.html', {'post': post})

@@ -32,3 +32,6 @@ class Post(models.Model):
     group = MultiSelectField(max_length=100,max_choices = 5, choices = GROUP)#default='Bangla')
     # subject = models.ManyToManyField(Subject,related_name='subject_set')
     # class_in = models.ManyToManyField(Class_in,related_name='class_set')
+
+    def __str__(self) :
+        return self.user.username.title()
