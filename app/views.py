@@ -1,10 +1,5 @@
-from django.shortcuts import render
 
-# Create your views here.
-# def home(request):
-#     return render(request,'basic.html')
-
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect ,get_object_or_404
 from django.utils.text import slugify
 from .forms import PostForm
 from .models import Post
@@ -27,3 +22,8 @@ def post(request):
 def postview(request):
     post = Post.objects.all().order_by('-created_at')  # Order by latest posts
     return render(request, 'postview.html', {'post': post})
+
+
+def post_detail_view(request, id):
+    post = get_object_or_404(Post, id=id)
+    return render(request, 'post_detail.html', {'post': post})
