@@ -19,6 +19,7 @@ def post(request):
 
 
 
+
 def postview(request):
     post = Post.objects.all().order_by('-created_at')  # Order by latest posts
     return render(request, 'postview.html', {'post': post})

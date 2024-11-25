@@ -3,6 +3,7 @@ from django.contrib.auth.models import User
 from multiselectfield import MultiSelectField
 from django.utils.timezone import now
 from django.utils.text import slugify
+from django.core.validators import RegexValidator  # Import RegexValidator
 
 class Post(models.Model):
     CATEGORY = (
@@ -82,6 +83,12 @@ class Post(models.Model):
         ('Satkhira', 'Satkhira'),
     )
 
+    SEX = (
+        ('Male', 'Male'),
+        ('Female', 'Female'),
+        ('Other', 'Other'),
+    )
+
     user = models.ForeignKey(User, on_delete=models.CASCADE, blank=True, null=True)
     id = models.AutoField(primary_key=True)
     title = models.CharField(max_length=100)
@@ -92,6 +99,15 @@ class Post(models.Model):
 
     created_at = models.DateTimeField(default=now)
     group = MultiSelectField(max_length=100, max_choices=5, choices=GROUP)
+
+    # New fields
+    sex = models.CharField(max_length=10, choices=SEX, default='Male')  # Sex field with choices
+    phone_number = models.CharField(
+        max_length=14, 
+        validators=[RegexValidator(r'^\+8801[3-9]\d{8}$', 'Enter a valid Bangladeshi phone number.')],
+        help_text="Enter phone number in the format: +8801XXXXXXXXX",
+        default='+8801000000000',  #  default value
+    )
 
     def __str__(self):
         return self.user.username.title() if self.user else self.title
