@@ -5,12 +5,26 @@
 {% endblock title %}
 
 {% block body %}
-<div class="container col-md-6 p-3 mt-4 shadow">
-    <h1 class="text-center">{{ post.title }}</h1>
+<div class="container col-md-6 p-3 mt-4 " style="box-shadow: 0 4px 8px rgba(179, 0, 0, 0.5);">
+    <h1 class="text-center" style="color: #b30000;">{{ post.title }}</h1><br>
+    <div class = "text-center">
+        <small> {{ post.created_at }}</small> <br>
+    </div>
     <p class="text-muted ">
         <strong>{{ post.category }}</strong> : {{user.username|title}}<br>
+        <strong>Blood Group</strong> : {{post.group}}<br>
         <strong>Sex</strong> : {{post.sex}}<br>
-        <strong>Posted on : </strong> {{ post.created_at }} 
+        <strong>Posted on : </strong> {{ post.created_at }} <br>
+        <strong>Phone Number</strong> : {{ post.phone_number }}<br>
+
+        {% if post.alternative_phone_number %}
+        <strong>Alternative Phone Number</strong>: {{ post.alternative_phone_number }}<br>
+        {% endif %}
+    
+        {% if post.say_something and post.say_something != 'optional' %}
+        <strong>Say Something</strong>: {{ post.say_something }}<br>
+        {% endif %}
+    
         
     </p>
     

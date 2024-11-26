@@ -1,9 +1,61 @@
 {% extends "basic.html" %}
 {% block body %}
+{% load crispy_forms_tags %}
+
+<div class="d-flex justify-content-center align-items-center" style="min-height: calc(100vh - 60px);">
+    <div class="col-md-6 col-lg-7 mt-3 p-4" style="box-shadow: 0 4px 8px rgba(179, 0, 0, 0.5); background: white; border-radius: 8px;">    
+        <form method="post" enctype="multipart/form-data">
+            <div >
+                <h2 class="text-center p-2" style="color: #b30000;  background: white; border-radius: 8px;">Create Your Post</h2>
+            </div>
+            {% csrf_token %}
+            {{ form|crispy }}
+            <button type="submit" class="btn w-50 mt-3" 
+    style="color: white; background-color: #b30000; box-shadow: 0 4px 8px rgba(179, 0, 0, 0.5); border: none; border-radius: 8px;">
+    Submit
+</button>
+
+
+        </form>
+    </div>
+</div>
+
+{% endblock body %}
+
+
+
+
+
+{% comment %} 
+{% extends "basic.html" %}
+{% block body %}
+{% load crispy_forms_tags %}
+
+<div class="d-flex justify-content-center align-items-center vh-100">
+    <div class="col-md-7" style="box-shadow: 0 4px 8px rgba(179, 0, 0, 0.5);">
+        <form class="shadow p-4" method="post" enctype="multipart/form-data">
+            <div>
+                <h1 class="text-center">Create Your Post</h1>
+            </div>
+            {% csrf_token %}
+            {{ form|crispy }}
+            <button type="submit" class="btn btn-primary w-100">Submit</button>
+        </form>
+    </div>
+</div>
+
+{% endblock body %} {% endcomment %}
+
+
+
+
+
+
+{% comment %} {% extends "basic.html" %}
+{% block body %}
 
 {% load crispy_forms_tags %}
-<div class="container shadow mt-3" style="background-color:#6efde7;">
-    <div class="col-md-6 offset-md-3">
+    <div class="col-md-7 offset-md-2 mt-3" style="box-shadow: 0 4px 8px rgba(179, 0, 0, 0.5);">
         <form class="shadow p-3" method="post" enctype="multipart/form-data">
             <div>
                 <h1>Create Your Post</h1>
@@ -13,8 +65,8 @@
             <button type="submit">Submit</button>
         </form>
     </div>
-</div>
 
-{% endblock body %}
+
+{% endblock body %} {% endcomment %}
 
 
