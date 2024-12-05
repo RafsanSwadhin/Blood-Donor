@@ -23,10 +23,17 @@ def post(request):
 # def postview(request):
 #     post = Post.objects.all().order_by('-created_at')  # Order by latest posts
 #     return render(request, 'postview.html', {'post': post})
+
+
+
+from django.core.paginator import Paginator
 def postview(request):
     post = Post.objects.all().order_by('-created_at')  # Order by latest posts
+    paginator = Paginator(post, 12)  # Show 12 posts per page
+    page_number = request.GET.get('page')  # Get the current page number from the query parameter
+    page_obj = paginator.get_page(page_number)  # Get the corresponding page
     context = {
-        'post': post,
+        'post': page_obj,
         'post_model': Post,  # Passing the model to access CITY and GROUP choices
     }
     return render(request, 'postview.html', context)
