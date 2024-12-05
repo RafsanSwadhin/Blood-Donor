@@ -1,34 +1,38 @@
-{% extends 'basic.html' %}
-{% block title %}
-    Filtered Posts
-{% endblock title %}
+{% extends 'basic.html' %} {% block title %} Filtered Posts {% endblock title %}
 {% block body %}
 <div class="container mt-4">
-    <h1 class="text-center" style="color: #b30000;">Here is Your Search Result</h1>
+  <h1 class="text-center" style="color: #b30000">Here is Your Search Result</h1>
 
-    {% if posts %}
-        <div class="row">
-            {% for p in posts %}
-                <div class="col-md-4">
-                    <div class="card mb-3">
-                        <div class="card-body" style="box-shadow: 0 4px 8px rgba(179, 0, 0, 0.5);">
-
-                            <h5 class="card-title">
-                                <a href="{% url 'post_detail_view' p.id %}" class="text-decoration-none">
-                                    {{ p.title }}
-                                </a>
-                            </h5>
-                            <p class="card-text">{{ p.category|truncatewords:20 }}</p>
-                            <p class="card-text">
-                                <small class="text-muted">Posted on {{ p.created_at }}</small>
-                            </p>
-                        </div>
-                    </div>
-                </div>
-            {% endfor %}
+  {% if posts %}
+  <div class="row">
+    {% for p in posts %}
+    <div class="col-md-4">
+      <div class="card mb-3">
+        <div
+          class="card-body"
+          style="box-shadow: 0 4px 8px rgba(179, 0, 0, 0.5)"
+        >
+          <h5 class="card-title">
+            <a
+              href="{% url 'post_detail_view' p.id %}"
+              class="text-decoration-none"
+            >
+              {{ p.title }}
+            </a>
+          </h5>
+          <p class="card-text">{{ p.category|truncatewords:20 }}</p>
+          <p class="card-text">
+            <small class="text-muted">Posted on {{ p.created_at }}</small>
+          </p>
         </div>
-    {% else %}
-        <p class="text-center text-muted">No posts found for the selected criteria.</p>
-    {% endif %}
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+  {% else %}
+  <p class="text-center text-muted">
+    No posts found for the selected criteria.
+  </p>
+  {% endif %}
 </div>
 {% endblock body %}
