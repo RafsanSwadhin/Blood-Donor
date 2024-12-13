@@ -46,10 +46,12 @@ def post_detail_view(request, id):
 
 from django.shortcuts import render
 from .models import Post
+from django.core.paginator import Paginator
 
 def filtered_post_view(request):
     city = request.GET.get('city', None)
     group = request.GET.get('group', None)
+    page_number = request.GET.get('page', 1)  # Get the current page number
 
     # Filter posts based on city and blood group
     posts = Post.objects.all()
@@ -58,4 +60,26 @@ def filtered_post_view(request):
     if group:
         posts = posts.filter(group__icontains=group)
 
-    return render(request, 'filtered_posts.html', {'posts': posts})
+    # Paginate the posts (10 posts per page)
+    paginator = Paginator(posts, 10)
+    paginated_posts = paginator.get_page(page_number)
+
+    return render(request, 'filtered_posts.html', {'posts': paginated_posts})
+
+
+
+
+
+
+# def filtered_post_view(request):
+#     city = request.GET.get('city', None)
+#     group = request.GET.get('group', None)
+
+#     # Filter posts based on city and blood group
+#     posts = Post.objects.all()
+#     if city:
+#         posts = posts.filter(city=city)
+#     if group:
+#         posts = posts.filter(group__icontains=group)
+
+#     return render(request, 'filtered_posts.html', {'posts': posts})
