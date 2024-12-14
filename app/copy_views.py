@@ -1,16 +1,9 @@
-from django.shortcuts import render, redirect, get_object_or_404
+
+from django.shortcuts import render, redirect ,get_object_or_404
 from django.utils.text import slugify
 from .forms import PostForm
 from .models import Post
-from django.http import HttpResponseForbidden
-from django.contrib.auth.decorators import login_required
-from django.core.paginator import Paginator
-from django.contrib.auth.forms import UserCreationForm
-from django.contrib.auth import login
-from django.contrib import messages
 
-# Post creation view
-@login_required
 def post(request):
     if request.method == 'POST':
         form = PostForm(request.POST)
@@ -25,7 +18,15 @@ def post(request):
     return render(request, 'createpost.html', {'form': form})
 
 
-# Post view with pagination
+
+
+# def postview(request):
+#     post = Post.objects.all().order_by('-created_at')  # Order by latest posts
+#     return render(request, 'postview.html', {'post': post})
+
+
+
+from django.core.paginator import Paginator
 def postview(request):
     post = Post.objects.all().order_by('-created_at')  # Order by latest posts
     paginator = Paginator(post, 12)  # Show 12 posts per page
@@ -37,15 +38,21 @@ def postview(request):
     }
     return render(request, 'postview.html', context)
 
-
-# Post detail view
-# @login_required
+from django.contrib.auth.decorators import login_required
+@login_required
 def post_detail_view(request, pk):
     post = get_object_or_404(Post, pk=pk)
     return render(request, 'post_detail.html', {'post': post})
 
+# def post_detail_view(request, id):
+#     post = get_object_or_404(Post, id=id)
+#     return render(request, 'post_detail.html', {'post': post})
 
-# Filtered post view
+
+from django.shortcuts import render
+from .models import Post
+from django.core.paginator import Paginator
+
 def filtered_post_view(request):
     city = request.GET.get('city', None)
     group = request.GET.get('group', None)
@@ -65,13 +72,18 @@ def filtered_post_view(request):
     return render(request, 'filtered_posts.html', {'posts': paginated_posts})
 
 
-# Post edit view
-@login_required
+
+
+
+from django.shortcuts import render, get_object_or_404, redirect
+from .models import Post
+from .forms import PostForm
+
 def post_edit_view(request, pk):
     post = get_object_or_404(Post, pk=pk)
 
     # Ensure the post has a user associated with it
-    if post.user != request.user:  # Make sure the post belongs to the current user
+    if post.user is None or post.user != request.user:
         return HttpResponseForbidden("You are not allowed to edit this post.")
 
     if request.method == 'POST':
@@ -85,19 +97,35 @@ def post_edit_view(request, pk):
     return render(request, 'post_edit.html', {'form': form, 'post': post})
 
 
-# Post delete view
-@login_required
+
 def post_delete_view(request, pk):
     post = get_object_or_404(Post, pk=pk)
-    if post.user != request.user:  # Make sure the post belongs to the current user
-        return HttpResponseForbidden("You are not allowed to delete this post.")
     if request.method == 'POST':
         post.delete()
         return redirect('filtered_post_view')  # Redirect to a suitable page after deletion
     return render(request, 'post_confirm_delete.html', {'post': post})
 
 
-# Registration view
+from django.http import HttpResponseForbidden
+
+def post_edit_view(request, pk):
+    post = get_object_or_404(Post, pk=pk)
+    if post.author != request.user:
+        return HttpResponseForbidden("You are not allowed to edit this post.")
+    # Rest of the code...
+
+def post_delete_view(request, pk):
+    post = get_object_or_404(Post, pk=pk)
+    if post.author != request.user:
+        return HttpResponseForbidden("You are not allowed to delete this post.")
+    # Rest of the code...
+
+
+from django.shortcuts import render, redirect
+from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth import login
+from django.contrib import messages
+
 def registration_view(request):
     """
     Handle user registration.
@@ -115,3 +143,20 @@ def registration_view(request):
         form = UserCreationForm()
 
     return render(request, 'registration.html', {'form': form})
+
+
+
+
+
+# def filtered_post_view(request):
+#     city = request.GET.get('city', None)
+#     group = request.GET.get('group', None)
+
+#     # Filter posts based on city and blood group
+#     posts = Post.objects.all()
+#     if city:
+#         posts = posts.filter(city=city)
+#     if group:
+#         posts = posts.filter(group__icontains=group)
+
+#     return render(request, 'filtered_posts.html', {'posts': posts})

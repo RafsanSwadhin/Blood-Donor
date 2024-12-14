@@ -1,0 +1,17 @@
+{% extends 'basic.html' %}
+
+{% block title %}
+    Confirm Delete
+{% endblock title %}
+
+{% block body %}
+<div class="container mt-4">
+    <h1 class="text-center" style="color: #b30000;">Delete Post</h1>
+    <p>Are you sure you want to delete the post titled <strong>{{ post.title }}</strong>?</p>
+    <form method="post">
+        {% csrf_token %}
+        <button type="submit" class="btn btn-danger">Delete</button>
+        <a href="{% url 'post_detail_view' post.id %}" class="btn btn-secondary">Cancel</a>
+    </form>
+</div>
+{% endblock body %}

@@ -46,6 +46,7 @@
           <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
+          {% if user.is_authenticated %}
           <ul class="navbar-nav me-auto mb-2 mb-lg-0">
             <li class="nav-item">
               <a
@@ -57,19 +58,38 @@
               >
             </li>
           </ul>
-          <div class="d-flex">
-            <a
-              class="btn btn-outline-danger me-2"
-              style="color: #b30000; border-color: #b30000"
-            >
-              Login With Google
-            </a>
-            <a
-              class="btn btn-outline-danger"
-              style="color: #b30000; border-color: #b30000"
-            >
-              Logout
-            </a>
+          {% endif %}
+
+          <div class="d-flex ms-auto"> <!-- Use ms-auto to align the buttons to the left -->
+            {% if user.is_authenticated %}
+              <!-- Logout Button -->
+              <form method="post" action="{% url 'logout' %}">
+                {% csrf_token %}
+                <button
+                  type="submit"
+                  class="btn btn-outline-danger"
+                  style="color: #b30000; border-color: #b30000"
+                >
+                  Logout
+                </button>
+              </form>
+            {% else %}
+              <!-- Login and Registration Buttons -->
+              <a
+                class="btn btn-outline-danger me-2"
+                style="color: #b30000; border-color: #b30000"
+                href="{% url 'registration' %}"
+              >
+                Registration
+              </a>
+              <a
+                class="btn btn-outline-danger"
+                style="color: #b30000; border-color: #b30000"
+                href="{% url 'login' %}"
+              >
+                Login
+              </a>
+            {% endif %}
           </div>
         </div>
       </div>
@@ -79,6 +99,8 @@
     <!-- End Example Code -->
   </body>
 </html>
+
+
 
 {% comment %}
 <!DOCTYPE html>
