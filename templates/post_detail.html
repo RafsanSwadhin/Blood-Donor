@@ -1,20 +1,21 @@
 {% extends 'basic.html' %}
 
 {% block title %}
-    {{ post.title }}
+{{ post.title }}
 {% endblock title %}
 
 {% block body %}
 <div class="container col-md-6 p-3 mt-4 " style="box-shadow: 0 4px 8px rgba(179, 0, 0, 0.5);">
     <h1 class="text-center" style="color: #b30000;">{{ post.title }}</h1><br>
     <div class = "text-center">
-        <small> {{ post.created_at }}</small> <br>
+        <small>  <strong>Posted on : </strong> {{ post.created_at }}</small> <br>
     </div>
     <p class="text-muted ">
         <strong>{{ post.category }}</strong> : {{post.user.username|title}}<br>
         <strong>Blood Group</strong> : {{post.group}}<br>
         <strong>Sex</strong> : {{post.sex}}<br>
-        <strong>Posted on : </strong> {{ post.created_at }} <br>
+        <strong>City</strong> : {{post.city}}<br>
+       
         <strong>Phone Number</strong> : {{ post.phone_number }}<br>
 
         {% if post.alternative_phone_number %}
@@ -28,10 +29,10 @@
         
     </p>
     
-    <div class="mt-3">
+    {% comment %} <div class="mt-3">
         <p>{{ post.detials }}</p>
         <p>{{ post.category }}</p>
-    </div>
+    </div> {% endcomment %}
 
     {% if post.user == request.user %}
         <!-- Edit and Delete Buttons -->

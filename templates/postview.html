@@ -41,6 +41,8 @@
 
     <!-- Display All Posts -->
     <h1 class="text-center mt-5" style="color: #b30000;">Available Posts</h1>
+    <hr/>
+    
     {% if post %}
         <div class="row mt-4">
             {% for p in post %}
@@ -53,7 +55,10 @@
                                     {{ p.title }}
                                 </a>
                             </h5>
-                            <p class="card-text">{{ p.category|truncatewords:20 }}</p>
+                            <p class="card-text">{{ p.category|truncatewords:20 }}
+                                <br/>
+                                From : {{ p.city}} City
+                            </p>
                             <p class="card-text">
                                 <small class="text-muted">Posted on {{ p.created_at }}</small>
                             </p>

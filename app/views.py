@@ -51,6 +51,11 @@ def filtered_post_view(request):
     group = request.GET.get('group', None)
     page_number = request.GET.get('page', 1)  # Get the current page number
 
+    # Check if at least one field is filled
+    if not city and not group:
+        messages.error(request, "Please select at least one filter: City or Blood Group.")
+        return render(request, 'filtered_posts.html', {'posts': []})
+
     # Filter posts based on city and blood group
     posts = Post.objects.all()
     if city:
